@@ -1,20 +1,21 @@
 package kg.geektech.taskapprestored;
 
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 
+import androidx.appcompat.app.AppCompatActivity;
+
+import kg.geektech.taskapprestored.App;
 import kg.geektech.taskapprestored.R;
 import kg.geektech.taskapprestored.models.Task;
 
-
 public class FormActivity extends AppCompatActivity {
-    private EditText editTitle, editDescription;
+
+    private EditText editTitle;
+    private EditText editDesc;
+    private Task task;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,27 +23,29 @@ public class FormActivity extends AppCompatActivity {
         setContentView(R.layout.activity_form);
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setTitle("Новая задача");
+            getSupportActionBar().setTitle("Новая Задача");
         }
         editTitle = findViewById(R.id.edit_title);
-        editDescription = findViewById(R.id.edit_description);
-    }
-    @Override
-    public boolean onSupportNavigateUp() {
-        finish();
-        return true;
+        editDesc = findViewById(R.id.edit_description);
+        task = new Task();
+        if (getIntent() != null) {
+            task = (Task) getIntent().getSerializableExtra("ss");
+            editTitle.setText(task.getTitle());
+            editDesc.setText(task.getDescription());
+//            App.getInstance().getDatabase().taskDao().updateSalaryByIdList();
+        }
+
     }
 
-    public void save(View view) {
+
+    public void onClick(View view) {
         String title = editTitle.getText().toString().trim();
-        String description = editDescription.getText().toString().trim();
-        Task task = new Task(title, description);
-        Intent intent = new Intent();
-        intent.putExtra("task", task);
-        setResult(RESULT_OK, intent);
+        String desc = editDesc.getText().toString().trim();
+        Task task = new Task(title, desc);
+        App.getInstance().getDatabase().taskDao().insert(task);
+//        Intent intent = new Intent();
+//        intent.putExtra("task", task);
+//        setResult(RESULT_OK, intent);
         finish();
-        Log.e("ololo", "Save button should send task");
     }
 }
-
-

@@ -1,7 +1,10 @@
 package kg.geektech.taskapprestored.ui.home;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,29 +13,35 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
 
+import kg.geektech.taskapprestored.App;
 import kg.geektech.taskapprestored.R;
 import kg.geektech.taskapprestored.models.Task;
+import kg.geektech.taskapprestored.ui.gallery.StorageAdapter;
 
 import static android.app.Activity.RESULT_OK;
 
 
 public class HomeFragment extends Fragment {
-    public TaskAdapter adapter;
-    public ArrayList<Task> list = new ArrayList<>();
+
+    private TaskAdapter adapter;
+    private ArrayList<Task> list = new ArrayList<>();
     Task task;
-    int position;
+    int pos;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        return  inflater.inflate(R.layout.fragment_home, container, false);
+        return inflater.inflate(R.layout.fragment_home, container, false);
     }
 
     @Override
@@ -40,27 +49,23 @@ public class HomeFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         RecyclerView recyclerView = view.findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        list.addAll(App.getInstance().getDatabase().taskDao().getAll());
         adapter = new TaskAdapter(list);
         recyclerView.setAdapter(adapter);
+        loadData();
+
+
     }
 
-    @Override
-    public void onActivityResult(int requestCode,int resultCode,   @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == 8 &&resultCode==RESULT_OK &&  data!=null){
-            task = (Task) data.getSerializableExtra("task");
-            list.add(position,task);
-            adapter.update(list);
-            adapter.notifyDataSetChanged();
-            Log.e("ololo", "incoming data to HomeFragment");
-        }
+    private void loadData() {
+        App.getInstance().getDatabase().taskDao().getAllLive().observe(this, new Observer<List<Task>>() {
+            @Override
+            public void onChanged(List<Task> tasks) {
+                list.clear();
+                list.addAll(tasks);
+                adapter.notifyDataSetChanged();
+            }
+        });
     }
+
 }
-
-
-
-
-
-
-
-

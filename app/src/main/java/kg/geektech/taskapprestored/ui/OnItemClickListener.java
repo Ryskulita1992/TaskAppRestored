@@ -1,4 +1,4 @@
-package kg.geektech.taskapprestored;
+package kg.geektech.taskapprestored.ui;
 
 public interface OnItemClickListener {
 

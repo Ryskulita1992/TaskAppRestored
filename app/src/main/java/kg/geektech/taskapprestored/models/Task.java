@@ -3,7 +3,10 @@ package kg.geektech.taskapprestored.models;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import androidx.room.Entity;
+
 import java.io.Serializable;
+@Entity
 
 public class Task implements Serializable{
     private String title, description;
