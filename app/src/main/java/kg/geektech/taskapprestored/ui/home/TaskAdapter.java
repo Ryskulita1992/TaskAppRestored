@@ -76,7 +76,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
                     Intent intent = new Intent(v.getContext(), FormActivity.class);
                     Task task = new Task();
                     task.setTitle(textTitle.getText().toString());
-                    task.setDescription(textDesc.getText().toString());
+                    task.setDesc(textDesc.getText().toString());
                     intent.putExtra("ss", task);
                     v.getContext().startActivity(intent);
 
@@ -115,7 +115,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
 
         public void onBind(Task task) {
             textTitle.setText(task.getTitle());
-            textDesc.setText(task.getDescription());
+            textDesc.setText(task.getDesc());
         }
     }
 }

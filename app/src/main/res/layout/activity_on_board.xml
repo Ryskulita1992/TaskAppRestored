@@ -11,20 +11,20 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
     <Button
-        android:background="@color/design_default_color_on_secondary"
+        android:background="@color/colorBlack"
         android:layout_alignParentRight="true"
         android:onClick="skipButton"
         android:id="@+id/skip_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="SKIP"
-        android:textColor="@color/design_default_color_on_primary"
+        android:textColor="@color/colorWhite"
         android:textSize="15sp"
         />
 
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tabLayout"
-        android:background="@color/design_default_color_on_secondary"
+        android:background="@color/colorBlack"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@id/view_pager"

@@ -1,6 +1,4 @@
 package kg.geektech.taskapprestored.ui.gallery;
-
-
 import android.Manifest;
 import android.content.pm.PackageManager;
 import android.os.Bundle;

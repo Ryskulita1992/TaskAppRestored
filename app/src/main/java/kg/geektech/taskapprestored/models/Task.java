@@ -4,16 +4,31 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import androidx.room.Entity;
+import androidx.room.PrimaryKey;
 
 import java.io.Serializable;
 @Entity
+public class Task implements Serializable {
 
-public class Task implements Serializable{
-    private String title, description;
+    @PrimaryKey(autoGenerate = true)
+    private int id;
+    private String title;
+    private String desc;
 
-    public Task(String title, String description) {
+    public Task() {
+    }
+
+    public Task(String title, String desc) {
         this.title = title;
-        this.description = description;
+        this.desc = desc;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getTitle() {
@@ -24,12 +39,12 @@ public class Task implements Serializable{
         this.title = title;
     }
 
-    public String getDescription() {
-        return description;
+    public String getDesc() {
+        return desc;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setDesc(String desc) {
+        this.desc = desc;
     }
 
 

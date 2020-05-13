@@ -14,7 +14,7 @@ public class FormActivity extends AppCompatActivity {
 
     private EditText editTitle;
     private EditText editDesc;
-    private Task task;
+    private Task task ;
 
 
     @Override
@@ -31,14 +31,14 @@ public class FormActivity extends AppCompatActivity {
         if (getIntent() != null) {
             task = (Task) getIntent().getSerializableExtra("ss");
             editTitle.setText(task.getTitle());
-            editDesc.setText(task.getDescription());
+            editDesc.setText(task.getDesc());
 //            App.getInstance().getDatabase().taskDao().updateSalaryByIdList();
         }
 
     }
 
 
-    public void onClick(View view) {
+    public void save(View view) {
         String title = editTitle.getText().toString().trim();
         String desc = editDesc.getText().toString().trim();
         Task task = new Task(title, desc);
