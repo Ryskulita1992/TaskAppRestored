@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.Query;
+import androidx.room.Update;
 
 import java.util.List;
 
@@ -21,10 +22,11 @@ public interface TaskDao {
     @Insert
     void insert(Task task);
 
+
     @Query("DELETE from task WHERE id IN (:idList)")
     void deleteByIdList(int idList);
-
-    @Query("UPDATE task Set title = :newTitle, `desc` = :newDesc WHERE id IN (:idList)")
-    void updateSalaryByIdList(int idList ,String newTitle, String newDesc);
+//
+//    @Query("UPDATE task Set title = :newTitle, `desc` = :newDesc WHERE id IN (:idList)")
+//    void updateSalaryByIdList(int idList ,String newTitle, String newDesc);
 
 }

@@ -37,7 +37,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         if (!isShown()){
             startActivity(new Intent(this, OnBoardActivity.class));
             finish();
@@ -47,15 +46,6 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivityForResult(new Intent(MainActivity.this, FormActivity.class), 8);
-                finish();
-
-            }
-        });
-
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
@@ -65,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent =new Intent(MainActivity.this, ProfileActivity.class);
                 startActivity(intent);
-                Log.e("ololo", "open new Profile Activity from fab");
+                Log.e("ololo", "open new Profile Activity from header");
 
             }
         });
@@ -105,6 +95,14 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
                 || super.onSupportNavigateUp();
+    }
+
+    public void add(View view) {
+        startActivity(new Intent( MainActivity.this, FormActivity.class));
+        finish();
+        Log.e("ololo", "opening FromActivity by clicking on Fab");
+
+
     }
 
 //    @Override

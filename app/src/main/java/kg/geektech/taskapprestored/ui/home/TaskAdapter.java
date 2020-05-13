@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import kg.geektech.taskapprestored.App;
 import kg.geektech.taskapprestored.FormActivity;
@@ -50,14 +51,19 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
         }
     }
 
+
     @Override
     public int getItemCount() {
         return list.size();
     }
 
-    public void setOnItemClickListener(OnItemClickListener onitemCickListner) {
-        this.onItemClickListener = onitemCickListner;
+    public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
+        this.onItemClickListener = onItemClickListener;
     }
+    public OnItemClickListener getOnItemClickListener(){
+        return onItemClickListener;
+    }
+
 
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -66,20 +72,16 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
         private TextView textDesc;
         Task task;
 
-        public ViewHolder(@NonNull View itemView) {
+        public ViewHolder(@NonNull final View itemView) {
             super(itemView);
             textTitle = itemView.findViewById(R.id.text_title);
             textDesc = itemView.findViewById(R.id.text_description);
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent(v.getContext(), FormActivity.class);
-                    Task task = new Task();
-                    task.setTitle(textTitle.getText().toString());
-                    task.setDesc(textDesc.getText().toString());
-                    intent.putExtra("ss", task);
+                     Intent intent=new Intent(v.getContext(), FormActivity.class);
                     v.getContext().startActivity(intent);
-
+                    //App.getInstance().getDatabase().taskDao().update(po);
 
                 }
             });
