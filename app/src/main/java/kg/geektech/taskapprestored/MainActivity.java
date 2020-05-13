@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Menu;
+import android.widget.ImageView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
@@ -30,11 +31,13 @@ public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
     private HomeFragment homeFragment;
-
+    NavigationView navigationView;
+    ImageView headerImageView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         if (!isShown()){
             startActivity(new Intent(this, OnBoardActivity.class));
             finish();
@@ -53,6 +56,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
         View header=navigationView.getHeaderView(0);
@@ -61,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent =new Intent(MainActivity.this, ProfileActivity.class);
                 startActivity(intent);
-                Log.e("ololo", "open new Profile Activity from header");
+                Log.e("ololo", "open new Profile Activity from fab");
 
             }
         });
@@ -103,15 +107,15 @@ public class MainActivity extends AppCompatActivity {
                 || super.onSupportNavigateUp();
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 8 && resultCode == RESULT_OK   && data != null) {
-            Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment);
-            if (fragment != null) {
-                fragment.getChildFragmentManager().getFragments().get(0).onActivityResult(requestCode, resultCode, data);
-                Log.e("ololo", "get info from Home fragment and replace the MainActivity");
-            }
-        }
-    }
+//    @Override
+//    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+//        super.onActivityResult(requestCode, resultCode, data);
+//        if (requestCode == 8 && resultCode == RESULT_OK   && data != null) {
+//            Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment);
+//            if (fragment != null) {
+//                fragment.getChildFragmentManager().getFragments().get(0).onActivityResult(requestCode, resultCode, data);
+//                Log.e("ololo", "get info from Home fragment and replace the MainActivity");
+//            }
+//        }
+//    }
 }
