@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -70,7 +71,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
 
         private TextView textTitle;
         private TextView textDesc;
-        Task task;
+
 
         public ViewHolder(@NonNull final View itemView) {
             super(itemView);
@@ -81,7 +82,15 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
                 public void onClick(View v) {
                      Intent intent=new Intent(v.getContext(), FormActivity.class);
                     v.getContext().startActivity(intent);
-                    //App.getInstance().getDatabase().taskDao().update(po);
+                    Task task = new Task();
+                    task.setTitle(textTitle.getText().toString());
+                    task.setDesc(textDesc.getText().toString());
+                    int posit = list.get(getAdapterPosition()).getId();
+                    intent.putExtra("sss",posit);
+                    intent.putExtra("ss", task);
+                    v.getContext().startActivity(intent);
+//                    save=v.findViewById(R.id.save);
+//                    save.setVisibility(View.GONE);
 
                 }
             });
@@ -95,16 +104,11 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
                             new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int which) {
                                     int pos = list.get(getAdapterPosition()).getId();
-                                    App.getInstance().getDatabase().taskDao().deleteByIdList(pos);
-
-
-                                }
+                                    App.getInstance().getDatabase().taskDao().deleteByIdList(pos); }
                             });
                     alertDialog.setNegativeButton("NO",
                             new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int which) {
-
-
                                 }
                             });
                     alertDialog.show();
@@ -113,7 +117,6 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
                 }
             });
         }
-
 
         public void onBind(Task task) {
             textTitle.setText(task.getTitle());

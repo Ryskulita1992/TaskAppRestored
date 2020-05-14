@@ -1,13 +1,18 @@
 package kg.geektech.taskapprestored;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+
+import java.io.Serializable;
 
 import kg.geektech.taskapprestored.App;
 import kg.geektech.taskapprestored.R;
@@ -18,8 +23,14 @@ public class FormActivity extends AppCompatActivity {
 
     private EditText editTitle;
     private EditText editDesc;
-    private Task editTask;
-    private int position;
+    private Task task;
+    Button buttonChange;
+    Button save;
+    private int id;
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
 
     @Override
@@ -32,33 +43,61 @@ public class FormActivity extends AppCompatActivity {
         }
         editTitle = findViewById(R.id.edit_title);
         editDesc = findViewById(R.id.edit_description);
-
-    }
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 8 && resultCode == RESULT_OK   && data != null) {
-            Task task= (Task) data.getSerializableExtra("task1");
+        save = findViewById(R.id.save);
+        buttonChange = findViewById(R.id.change);
+        if (getIntent().getSerializableExtra("ss") != null) {
+            task = (Task) getIntent().getSerializableExtra("ss");
             editTitle.setText(task.getTitle());
             editDesc.setText(task.getDesc());
+            save.setVisibility(View.GONE);
+            buttonChange.setVisibility(View.VISIBLE);
+
+            buttonChange.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                   // saveIsShown();
+                    if (getIntent().getSerializableExtra("sss") != null) {
+                        Intent intent = getIntent();
+                        Integer posit = intent.getIntExtra("sss", 1);
+                        App.getInstance().getDatabase().taskDao().update(posit, editTitle.getText().toString(), editDesc.getText().toString());
+                        Log.d("ololo", "editing " + posit.toString());
+                        finish();
+                    }
+                }
+            });
+            save.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    save.setVisibility(View.INVISIBLE);
+                    String title = editTitle.getText().toString().trim();
+                    String desc = editDesc.getText().toString().trim();
+                    Task task = new Task(title, desc);
+                    App.getInstance().getDatabase().taskDao().insert(task);
+                    finish();
+                    Log.d("ololo", "saving  " );
+
+                }
+            });
 
 
 
-            Log.e("ololo", "get info from VH   and dhould be editable in the FormActivity");
+
+            class Pos implements Serializable {
+                int position;
+
+                public int getPosition() {
+                    return position;
+                }
             }
+
         }
-
-
-
-    public void save(View view) {
-        String title = editTitle.getText().toString().trim();
-        String desc = editDesc.getText().toString().trim();
-        Task task = new Task(title, desc);
-        App.getInstance().getDatabase().taskDao().insert(task);
-
-//        Intent intent = new Intent();
-//        intent.putExtra("task", task);
-//        setResult(RESULT_OK, intent);
-        finish();
     }
+//    public void saveIsShown (){
+//        SharedPreferences preferences = this.getSharedPreferences("storageFile", Context.MODE_PRIVATE);
+//        preferences.edit().putBoolean("isShownButChange", true).apply();
+//    }
+//    private  boolean isShownButton (){
+//        SharedPreferences preferences =getSharedPreferences("storageFile", Context.MODE_PRIVATE);
+//        return preferences.getBoolean("isShownButChange",true);
+ //   };
 }
